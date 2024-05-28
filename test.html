@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+  <style>
+    *, *::before, *::after {padding:0; margin:0; box-sizing:border-box;}
+    body {overflow-x:hidden; background-color:#1e1e1e;}
+    .wrap {max-width:1440px; margin:0 auto; padding:100px 0;}
+    section + section {margin-top:200px;}
+    .span-block {display:block;}
+
+
+    /* .rolling-txt {display:flex; font-size:200px;} */
+    .rolling-txt-wrap {overflow:hidden; white-space:nowrap; will-change: transform;}
+    .rolling-txt {display:inline-flex; flex-wrap:nowrap; align-items:center; margin-right:80px; font-size:200px;}
+    .rolling-txt .video-wrap {overflow:hidden; display:inline-block; position:relative; width:200px; height:200px; border-radius:50%;}
+    .rolling-txt .video-wrap video {position:absolute; left:50%; top:50%; transform:translate(-50%, -50%);}
+
+    .txt-animation .tit {color:#fff; font-size:50px; line-height:1.4;}
+    .txt-animation .tit .text-ani {overflow:hidden; display:inline-block; position:relative;}
+    .txt-animation .tit .text-ani.-active::before {content:""; position:absolute; right:0; top:0; width:100%; height:100%; background-color:#1e1e1e; animation:0.4s textAniBox 0.3s forwards ease-in-out;}
+    .txt-animation .tit .text-ani.-active::after {content:""; position:absolute; left:0; top:0; width:100%; height:100%; background-color:#d61515; transform:translateX(-100%); animation:textAniBox2 0.8s forwards ease-in-out;}
+    .txt-animation .tit .text-ani.-active .-point {display:inline-block; position:relative;}
+    .txt-animation .tit .text-ani.-active .-point::after {content:""; position:absolute; left:0; bottom:0; z-index:-1; width:0; height:50%; background-color:#144010; animation:0.5s textAniPoint 0.5s forwards ease-in-out;}
+    .txt-animation .desc {margin-top:20px; color:#fff; font-size:20px;}
+    .txt-animation .desc span {display:block}
+
+
+    .hover-txt {color:#fff;}
+    .hover-txt .tit {font-size:100px;}
+    .point {overflow:hidden; display:inline-block; position:relative; padding:10px 40px; font-family:serif; color:#e0fd60; font-size:100px; border:2px solid #e0fd60; border-radius:1000px; transform:translateZ(0); transition:transform .3s; pointer-events:auto;}
+    /* .hover-txt .tit .point-border span {display:block; width:100%; height:100%; transform:translateY(101%); background:currentColor; border-radius:50% 50% 0 0; transition:transform .5s cubic-bezier(.4,0,0,1),border-radius .5s cubic-bezier(.4,0,0,1)} */
+    .point-bg {display:block; position:absolute; left:0; top:0; width:100%; height:100%; background-color:#e0fd60; border-radius:50% 50% 0 0; transform:translateY(110%); transition:transform .5s cubic-bezier(.4,0,0,1),border-radius .5s cubic-bezier(.4,0,0,1);}
+    .point-tit {position:relative; display:block;}
+    .point-tit span {display:block; transition:transform .8s cubic-bezier(.16,1,.3,1);}
+    .point-tit span::after {content:attr(data-text); display:block; position:absolute; top:110%; left:0; color:#1e1e1e;}
+
+
+    @media (pointer: fine) {
+      .point:hover {transform:scaleX(1.02); transition:transform .6s cubic-bezier(.34,5.56,.64,1)}
+      .point:hover .point-bg {border-radius:0; transform:translateY(0); transition-duration:.5s,.9s;}
+      .point:hover .point-tit span {transform:translateY(-110%);}
+    }
+    .hover-txt .desc {margin-top:50px; font-size:20px;}
+
+
+    @keyframes textAniBox {
+      100% {width:0;}
+    }
+    @keyframes textAniBox2 {
+      70% {transform:translateX(20%);}
+      100% {transform:translateX(102%);}
+    }
+    @keyframes textAniPoint {
+      100% {width:100%;}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section>
+      <div class="rolling-txt-wrap">
+        <div class="rolling-txt">
+          <span>ADST</span>
+          <span class="video-wrap">
+            <video muted autoplay playsinline loop src="./movie.webm"></video>
+          </span>
+          <span>RM</span>
+        </div>
+        <div class="rolling-txt">
+          <span>ADST</span>
+          <span class="video-wrap">
+            <video muted autoplay playsinline loop src="./movie.webm"></video>
+          </span>
+          <span>RM</span>
+        </div>
+        <div class="rolling-txt">
+          <span>ADST</span>
+          <span class="video-wrap">
+            <video muted autoplay playsinline loop src="./movie.webm"></video>
+          </span>
+          <span>RM</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="hover-txt">
+      <div class="tit">Innovate 
+        <span class="point">
+          <span class="point-bg"></span>
+          <span class="point-tit">
+            <span data-text="Dreams,">Dreams,</span>
+          </span>
+        </span> 
+        <br>Actualize Success
+      </div>
+      <p class="desc">애드스톰은 다양한 분야의 전문 역량으로 고객 가치를 실현하기 위해 창의적이고 혁신적인 솔루션을 제공합니다. <br>또한 산업 트렌드의 정확한 분석과 예측을 통해 최적화된 크리에이티브 전략을 도출하며, 최고의 결과물을 만들어 냅니다.</p>
+    </section>
+
+    <section class="txt-animation">
+      <h2 class="tit">
+        <span class="text-ani">Dream & Build</span>
+        <span class="span-block"></span>
+        <span class="text-ani">Beyond</span>
+        <span class="span-block"></span>
+        <span class="text-ani">The <em class="-point">Ordinary</em></span>
+      </h2>
+      <p class="desc -slideTop">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
+        Nihil, soluta? Harum voluptas cumque libero laudantium deserunt,soluta, <br>
+        maxime modi asperiores nobis accusantium obcaecati cum, <br>
+        quaerat sint consectetur quisquam temporibus quod.</p>
+    </section>
+    <section class="txt-animation">
+      <h2 class="tit">
+        <span class="text-ani"><em class="-point">Dream</em> & Build</span>
+        <span class="span-block"></span>
+        <span class="text-ani">Beyond</span>
+        <span class="span-block"></span>
+        <span class="text-ani -point">The Ordinary</span>
+      </h2>
+      <p class="desc -slideTop">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
+        Nihil, soluta? Harum voluptas cumque libero laudantium deserunt,soluta, <br>
+        maxime modi asperiores nobis accusantium obcaecati cum, <br>
+        quaerat sint consectetur quisquam temporibus quod.</p>
+    </section>
+    <section class="txt-animation">
+      <h2 class="tit">
+        <span class="text-ani">Dream & Build</span>
+        <span class="span-block"></span>
+        <span class="text-ani">Beyond</span>
+        <span class="span-block"></span>
+        <span class="text-ani -point">The Ordinary</span>
+      </h2>
+      <p class="desc -slideTop">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
+        Nihil, soluta? Harum voluptas cumque libero laudantium deserunt,soluta, <br>
+        maxime modi asperiores nobis accusantium obcaecati cum, <br>
+        quaerat sint consectetur quisquam temporibus quod.</p>
+    </section>
+    <section class="txt-animation">
+      <h2 class="tit">
+        <span class="text-ani">Dream & Build</span>
+        <span class="span-block"></span>
+        <span class="text-ani">Be<em class="-point">yond</em></span>
+        <span class="span-block"></span>
+        <span class="text-ani -point">The Ordinary</span>
+      </h2>
+      <p class="desc -slide-top">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
+        Nihil, soluta? Harum voluptas cumque libero laudantium deserunt,soluta, <br>
+        maxime modi asperiores nobis accusantium obcaecati cum, <br>
+        quaerat sint consectetur quisquam temporibus quod.</p>
+    </section>
+  </div>
+  <script>
+    const textAni = document.querySelectorAll('.text-ani');
+    // const sldiTop
+    console.log(textAni)
+    gsap.utils.toArray(textAni).forEach(item => {
+      ScrollTrigger.create({
+          trigger: item,
+          start: "top bottom",
+          end: "bottom top",
+          toggleClass: '-active',
+          toggleActions: "play none restart none"
+        });
+      });
+
+
+      let loops = gsap.utils.toArray('.rolling-txt-wrap').map((line, i) => {
+        const links = line.querySelectorAll(".rolling-txt");
+        return horizontalLoop(links, {
+            repeat: -1, 
+            speed: 1 + i * 0.5,
+            reversed: false,
+            paddingRight: parseFloat(gsap.getProperty(links[0], "marginRight", "px"))
+        });
+      });
+
+      let currentScroll = 0;
+      let scrollDirection = 1;
+
+      window.addEventListener("scroll", () => {
+        let direction = (window.pageYOffset > currentScroll) ? 1 : -1;
+        if (direction !== scrollDirection) {
+            loops.forEach(tl => gsap.to(tl, {timeScale: direction, overwrite: true}));
+            scrollDirection = direction;
+        }
+        currentScroll = window.pageYOffset;
+      });
+
+      /*
+      This helper function makes a group of elements animate along the x-axis in a seamless, responsive loop.
+
+      Features:
+      - Uses xPercent so that even if the widths change (like if the window gets resized), it should still work in most cases.
+      - When each item animates to the left or right enough, it will loop back to the other side
+      - Optionally pass in a config object with values like "speed" (default: 1, which travels at roughly 100 pixels per second), paused (boolean),  repeat, reversed, and paddingRight.
+      - The returned timeline will have the following methods added to it:
+        - next() - animates to the next element using a timeline.tweenTo() which it returns. You can pass in a vars object to control duration, easing, etc.
+        - previous() - animates to the previous element using a timeline.tweenTo() which it returns. You can pass in a vars object to control duration, easing, etc.
+        - toIndex() - pass in a zero-based index value of the element that it should animate to, and optionally pass in a vars object to control duration, easing, etc. Always goes in the shortest direction
+        - current() - returns the current index (if an animation is in-progress, it reflects the final index)
+        - times - an Array of the times on the timeline where each element hits the "starting" spot. There's also a label added accordingly, so "label1" is when the 2nd element reaches the start.
+      */
+
+      function horizontalLoop(items, config) {
+        items = gsap.utils.toArray(items);
+        config = config || {};
+        let tl = gsap.timeline({repeat: config.repeat, paused: config.paused, defaults: {ease: "none"}, onReverseComplete: () => tl.totalTime(tl.rawTime() + tl.duration() * 100)}),
+          length = items.length,
+          startX = items[0].offsetLeft,
+          times = [],
+          widths = [],
+          xPercents = [],
+          curIndex = 0,
+          pixelsPerSecond = (config.speed || 1) * 100,
+          snap = config.snap === false ? v => v : gsap.utils.snap(config.snap || 1), // some browsers shift by a pixel to accommodate flex layouts, so for example if width is 20% the first element's width might be 242px, and the next 243px, alternating back and forth. So we snap to 5 percentage points to make things look more natural
+          totalWidth, curX, distanceToStart, distanceToLoop, item, i;
+        gsap.set(items, { // convert "x" to "xPercent" to make things responsive, and populate the widths/xPercents Arrays to make lookups faster.
+          xPercent: (i, el) => {
+            let w = widths[i] = parseFloat(gsap.getProperty(el, "width", "px"));
+            xPercents[i] = snap(parseFloat(gsap.getProperty(el, "x", "px")) / w * 100 + gsap.getProperty(el, "xPercent"));
+            return xPercents[i];
+          }
+        });
+        gsap.set(items, {x: 0});
+        totalWidth = items[length-1].offsetLeft + xPercents[length-1] / 100 * widths[length-1] - startX + items[length-1].offsetWidth * gsap.getProperty(items[length-1], "scaleX") + (parseFloat(config.paddingRight) || 0);
+        for (i = 0; i < length; i++) {
+          item = items[i];
+          curX = xPercents[i] / 100 * widths[i];
+          distanceToStart = item.offsetLeft + curX - startX;
+          distanceToLoop = distanceToStart + widths[i] * gsap.getProperty(item, "scaleX");
+          tl.to(item, {xPercent: snap((curX - distanceToLoop) / widths[i] * 100), duration: distanceToLoop / pixelsPerSecond}, 0)
+            .fromTo(item, {xPercent: snap((curX - distanceToLoop + totalWidth) / widths[i] * 100)}, {xPercent: xPercents[i], duration: (curX - distanceToLoop + totalWidth - curX) / pixelsPerSecond, immediateRender: false}, distanceToLoop / pixelsPerSecond)
+            .add("label" + i, distanceToStart / pixelsPerSecond);
+          times[i] = distanceToStart / pixelsPerSecond;
+        }
+        function toIndex(index, vars) {
+          vars = vars || {};
+          (Math.abs(index - curIndex) > length / 2) && (index += index > curIndex ? -length : length); // always go in the shortest direction
+          let newIndex = gsap.utils.wrap(0, length, index),
+            time = times[newIndex];
+          if (time > tl.time() !== index > curIndex) { // if we're wrapping the timeline's playhead, make the proper adjustments
+            vars.modifiers = {time: gsap.utils.wrap(0, tl.duration())};
+            time += tl.duration() * (index > curIndex ? 1 : -1);
+          }
+          curIndex = newIndex;
+          vars.overwrite = true;
+          return tl.tweenTo(time, vars);
+        }
+        tl.next = vars => toIndex(curIndex+1, vars);
+        tl.previous = vars => toIndex(curIndex-1, vars);
+        tl.current = () => curIndex;
+        tl.toIndex = (index, vars) => toIndex(index, vars);
+        tl.times = times;
+        if (config.reversed) {
+          tl.vars.onReverseComplete();
+          tl.reverse();
+        }
+        return tl;
+      }
+  </script>
+</body>
+</html>
